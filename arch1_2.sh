@@ -1,6 +1,6 @@
 #!/bin/bash
 read -p "Введите имя компьютера: " hostname
-read -p "Ââåäèòå èìÿ ïîëüçîâàòåëÿ: " username
+read -p "Введите имя пользователя: " username
 
 echo 'Ïðîïèñûâàåì èìÿ êîìïüþòåðà'
 echo $hostname > /etc/hostname
