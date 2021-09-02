@@ -1,84 +1,84 @@
 #!/bin/bash
-read -p "Введите имя компьютера: " hostname
-read -p "Введите имя пользователя: " username
+read -p "Р’РІРµРґРёС‚Рµ РёРјСЏ РєРѕРјРїСЊСЋС‚РµСЂР°: " hostname
+read -p "Г‚ГўГҐГ¤ГЁГІГҐ ГЁГ¬Гї ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї: " username
 
-echo 'Прописываем имя компьютера'
+echo 'ГЏГ°Г®ГЇГЁГ±Г»ГўГ ГҐГ¬ ГЁГ¬Гї ГЄГ®Г¬ГЇГјГѕГІГҐГ°Г '
 echo $hostname > /etc/hostname
 ln -svf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
 
-echo '3.4 Добавляем русскую локаль системы'
+echo '3.4 Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г°ГіГ±Г±ГЄГіГѕ Г«Г®ГЄГ Г«Гј Г±ГЁГ±ГІГҐГ¬Г»'
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
 
-echo 'Обновим текущую локаль системы'
+echo 'ГЋГЎГ­Г®ГўГЁГ¬ ГІГҐГЄГіГ№ГіГѕ Г«Г®ГЄГ Г«Гј Г±ГЁГ±ГІГҐГ¬Г»'
 locale-gen
 
-echo 'Указываем язык системы'
+echo 'Г“ГЄГ Г§Г»ГўГ ГҐГ¬ ГїГ§Г»ГЄ Г±ГЁГ±ГІГҐГ¬Г»'
 echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
 
-echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
+echo 'Г‚ГЇГЁГ±Г»ГўГ ГҐГ¬ KEYMAP=ru FONT=cyr-sun16'
 echo 'KEYMAP=ru' >> /etc/vconsole.conf
 echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
 
-echo 'Создадим загрузочный RAM диск'
+echo 'Г‘Г®Г§Г¤Г Г¤ГЁГ¬ Г§Г ГЈГ°ГіГ§Г®Г·Г­Г»Г© RAM Г¤ГЁГ±ГЄ'
 mkinitcpio -p linux
 
-echo '3.5 Устанавливаем загрузчик'
+echo '3.5 Г“Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ Г§Г ГЈГ°ГіГ§Г·ГЁГЄ'
 pacman -Syy
 pacman -S grub --noconfirm 
 grub-install /dev/sda
 
-echo 'Обновляем grub.cfg'
+echo 'ГЋГЎГ­Г®ГўГ«ГїГҐГ¬ grub.cfg'
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo 'Ставим программу для Wi-fi'
+echo 'Г‘ГІГ ГўГЁГ¬ ГЇГ°Г®ГЈГ°Г Г¬Г¬Гі Г¤Г«Гї Wi-fi'
 pacman -S dialog wpa_supplicant --noconfirm 
 
-echo 'Добавляем пользователя'
+echo 'Г„Г®ГЎГ ГўГ«ГїГҐГ¬ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї'
 useradd -m -g users -G wheel -s /bin/bash $username
 
-echo 'Создаем root пароль'
+echo 'Г‘Г®Г§Г¤Г ГҐГ¬ root ГЇГ Г°Г®Г«Гј'
 passwd
 
-echo 'Устанавливаем пароль пользователя'
+echo 'Г“Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ ГЇГ Г°Г®Г«Гј ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї'
 passwd $username
 
-echo 'Устанавливаем SUDO'
+echo 'Г“Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ SUDO'
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
-echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
+echo 'ГђГ Г±ГЄГ®Г¬Г¬ГҐГ­ГІГЁГ°ГіГҐГ¬ Г°ГҐГЇГ®Г§ГЁГІГ®Г°ГЁГ© multilib Г„Г«Гї Г°Г ГЎГ®ГІГ» 32-ГЎГЁГІГ­Г»Гµ ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГ© Гў 64-ГЎГЁГІГ­Г®Г© Г±ГЁГ±ГІГҐГ¬ГҐ.'
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
-echo "Куда устанавливем Arch Linux на виртуальную машину?"
-read -p "1 - Да, 0 - Нет: " vm_setting
+echo "ГЉГіГ¤Г  ГіГ±ГІГ Г­Г ГўГ«ГЁГўГҐГ¬ Arch Linux Г­Г  ГўГЁГ°ГІГіГ Г«ГјГ­ГіГѕ Г¬Г ГёГЁГ­Гі?"
+read -p "1 - Г„Г , 0 - ГЌГҐГІ: " vm_setting
 if [[ $vm_setting == 0 ]]; then
   gui_install="xorg-server xorg-drivers xorg-xinit"
 elif [[ $vm_setting == 1 ]]; then
   gui_install="xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils"
 fi
 
-echo 'Ставим иксы и драйвера'
+echo 'Г‘ГІГ ГўГЁГ¬ ГЁГЄГ±Г» ГЁ Г¤Г°Г Г©ГўГҐГ°Г '
 pacman -S $gui_install
 
-echo "Ставим I3-WM"
+echo "Г‘ГІГ ГўГЁГ¬ I3-WM"
 pacman -S i3-wm i3-gaps i3status sbxkb dmenu pcmanfm ttf-font-awesome feh lxappearance thunar gvfs udiskie xorg-xbacklight ristretto tumbler picom --noconfirm
 
-echo 'Cтавим DM'
+echo 'CГІГ ГўГЁГ¬ DM'
 pacman -S sddm --noconfirm
 systemctl enable lxdm
 
-echo 'Ставим шрифты'
+echo 'Г‘ГІГ ГўГЁГ¬ ГёГ°ГЁГґГІГ»'
 pacman -S ttf-liberation ttf-dejavu --noconfirm 
 
-echo 'Ставим сеть'
+echo 'Г‘ГІГ ГўГЁГ¬ Г±ГҐГІГј'
 pacman -S networkmanager network-manager-applet ppp --noconfirm
 
-echo 'Подключаем автозагрузку менеджера входа и интернет'
+echo 'ГЏГ®Г¤ГЄГ«ГѕГ·Г ГҐГ¬ Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГі Г¬ГҐГ­ГҐГ¤Г¦ГҐГ°Г  ГўГµГ®Г¤Г  ГЁ ГЁГ­ГІГҐГ°Г­ГҐГІ'
 systemctl enable NetworkManager
 
-echo 'Установка завершена! Перезагрузите систему.'
-echo 'Если хотите подключить AUR, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
+echo 'Г“Г±ГІГ Г­Г®ГўГЄГ  Г§Г ГўГҐГ°ГёГҐГ­Г ! ГЏГҐГ°ГҐГ§Г ГЈГ°ГіГ§ГЁГІГҐ Г±ГЁГ±ГІГҐГ¬Гі.'
+echo 'Г…Г±Г«ГЁ ГµГ®ГІГЁГІГҐ ГЇГ®Г¤ГЄГ«ГѕГ·ГЁГІГј AUR, ГІГ®ГЈГ¤Г  ГЇГ®Г±Г«ГҐ ГЇГҐГ°ГҐГ§Г ГЈГ°Г§ГЄГЁ ГЁ ГўГµГ®Г¤Г  Гў Г±ГЁГ±ГІГҐГ¬Гі, ГіГ±ГІГ Г­Г®ГўГЁГІГҐ wget (sudo pacman -S wget) ГЁ ГўГ»ГЇГ®Г«Г­ГЁГІГҐ ГЄГ®Г¬Г Г­Г¤Гі:'
 echo 'wget git.io/arch1_3.sh && sh arch1_3.sh'
 exit
