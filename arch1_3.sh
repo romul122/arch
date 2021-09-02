@@ -2,45 +2,45 @@
 mkdir ~/downloads
 cd ~/downloads
 
-echo 'Установка AUR (yay)'
+echo ''РЈСЃС‚Р°РЅРѕРІРєР° AUR (yay)'
 sudo pacman -Syu
 sudo pacman -S wget --noconfirm
 wget git.io/yay-install.sh && sh yay-install.sh --noconfirm
 
-echo 'Создаем нужные директории'
+echo 'РЎРѕР·РґР°РµРј РЅСѓР¶РЅС‹Рµ РґРёСЂРµРєС‚РѕСЂРёРё'
 sudo pacman -S xdg-user-dirs --noconfirm
 xdg-user-dirs-update
 
-echo 'Установка базовых программ и пакетов'
+echo 'РЈСЃС‚Р°РЅРѕРІРєР° Р±Р°Р·РѕРІС‹С… РїСЂРѕРіСЂР°РјРј Рё РїР°РєРµС‚РѕРІ'
 sudo pacman -S reflector f2fs-tools dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
 
-echo 'Установить рекомендумые программы?'
-read -p "1 - Да, 0 - Нет: " prog_set
+echo 'Г“Г±ГІГ Г­Г®ГўГЁГІГј Г°ГҐГЄГ®Г¬ГҐГ­Г¤ГіГ¬Г»ГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»?'
+read -p "1 - Г„Г , 0 - ГЌГҐГІ: " prog_set
 if [[ $prog_set == 1 ]]; then
-  #Можно заменить на pacman -Qqm > ~/.pacmanlist.txt
+  #ГЊГ®Г¦Г­Г® Г§Г Г¬ГҐГ­ГЁГІГј Г­Г  pacman -Qqm > ~/.pacmanlist.txt
   sudo pacman -S recoll chromium flameshot veracrypt vlc freemind filezilla neofetch screenfetch qbittorrent galculator telegram-desktop atom htop shotwell ristretto--noconfirm
   yay -Syy
   yay -S xflux sublime-text-dev hunspell-ru pamac-aur-git megasync-nopdfium trello xorg-xkill ttf-symbola ttf-clear-sans --noconfirm
 elif [[ $prog_set == 0 ]]; then
-  echo 'Установка программ пропущена.'
+  echo 'Г“Г±ГІГ Г­Г®ГўГЄГ  ГЇГ°Г®ГЈГ°Г Г¬Г¬ ГЇГ°Г®ГЇГіГ№ГҐГ­Г .'
 fi
  
-  echo 'Ставим лого ArchLinux в меню'
+  echo 'Г‘ГІГ ГўГЁГ¬ Г«Г®ГЈГ® ArchLinux Гў Г¬ГҐГ­Гѕ'
   wget git.io/arch_logo.png
   sudo mv -f ~/downloads/arch_logo.png /usr/share/pixmaps/arch_logo.png
   
-echo 'Установить conky?'
-read -p "1 - Да, 0 - Нет: " conky_set
+echo 'Г“Г±ГІГ Г­Г®ГўГЁГІГј conky?'
+read -p "1 - Г„Г , 0 - ГЌГҐГІ: " conky_set
 if [[ $conky_set == 1 ]]; then
   sudo pacman -S conky conky-manager --noconfirm
   wget git.io/conky.tar.gz
   tar -xzf conky.tar.gz -C ~/
 elif [[ $conky_set == 0 ]]; then
-  echo 'Установка conky пропущена.'
+  echo 'Г“Г±ГІГ Г­Г®ГўГЄГ  conky ГЇГ°Г®ГЇГіГ№ГҐГ­Г .'
 fi
 
-echo 'Делаем авто вход без DE?'
-read -p "1 - Да, 0 - Нет: " node_set
+echo 'Г„ГҐГ«Г ГҐГ¬ Г ГўГІГ® ГўГµГ®Г¤ ГЎГҐГ§ DE?'
+read -p "1 - Г„Г , 0 - ГЌГҐГІ: " node_set
 if [[ $node_set == 1 ]]; then
 sudo systemctl disable sddm
 sudo pacman -R sddm
@@ -54,19 +54,19 @@ sudo mv -f .bashrc ~/.bashrc
 wget https://raw.githubusercontent.com/ordanax/arch/master/attach/grub
 sudo mv -f grub /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
-read -p "Введите имя пользователя: " username
+read -p "Г‚ГўГҐГ¤ГЁГІГҐ ГЁГ¬Гї ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї: " username
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > ~/downloads/override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f ~/downloads/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
 elif [[ $node_set == 0 ]]; then
-  echo 'Пропускаем.'
+  echo 'ГЏГ°Г®ГЇГіГ±ГЄГ ГҐГ¬.'
 fi
 
-# Подключаем zRam
+# ГЏГ®Г¤ГЄГ«ГѕГ·Г ГҐГ¬ zRam
 yay -S zramswap --noconfirm
 sudo systemctl enable zramswap.service
 
-# Очистка
+# ГЋГ·ГЁГ±ГІГЄГ 
 rm -rf ~/downloads/
 
-echo 'Установка завершена!'
+echo 'Г“Г±ГІГ Г­Г®ГўГЄГ  Г§Г ГўГҐГ°ГёГҐГ­Г !'
