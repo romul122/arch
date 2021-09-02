@@ -3,10 +3,10 @@
 loadkeys ru
 setfont cyr-sun16
 
-echo '2.3 Ñèíõðîíèçàöèÿ ñèñòåìíûõ ÷àñîâ'
+echo '2.3 Ð¡Ð¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ñ ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ñ‹Ñ… Ñ‡Ð°ÑÐ¾Ð²'
 timedatectl set-ntp true
 
-echo '2.4 ñîçäàíèå ðàçäåëîâ'
+echo '2.4 ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ñ€Ð°Ð·Ð´ÐµÐ»Ð¾Ð²'
 (
   echo o;
 
@@ -38,29 +38,29 @@ echo '2.4 ñîçäàíèå ðàçäåëîâ'
   echo w;
 ) | fdisk /dev/sda
 
-echo 'Âàøà ðàçìåòêà äèñêà'
+echo 'Ð’Ð°ÑˆÐ° Ñ€Ð°Ð·Ð¼ÐµÑ‚ÐºÐ° Ð´Ð¸ÑÐºÐ°'
 fdisk -l
 
-echo '2.4.2 Ôîðìàòèðîâàíèå äèñêîâ'
+echo '2.4.2 Ð¤Ð¾Ñ€Ð¼Ð°Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð´Ð¸ÑÐºÐ¾Ð²'
 mkfs.ext2  /dev/sda1 -L boot
 mkfs.ext4  /dev/sda2 -L root
 mkswap /dev/sda3 -L swap
 mkfs.ext4  /dev/sda4 -L home
 
-echo '2.4.3 Ìîíòèðîâàíèå äèñêîâ'
+echo '2.4.3 ÐœÐ¾Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð´Ð¸ÑÐºÐ¾Ð²'
 mount /dev/sda2 /mnt
 mkdir /mnt/{boot,home}
 mount /dev/sda1 /mnt/boot
 swapon /dev/sda3
 mount /dev/sda4 /mnt/home
 
-echo '3.1 Âûáîð çåðêàë äëÿ çàãðóçêè. Ñòàâèì çåðêàëî îò ßíäåêñ'
+echo '3.1 Ð’Ñ‹Ð±Ð¾Ñ€ Ð·ÐµÑ€ÐºÐ°Ð» Ð´Ð»Ñ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸. Ð¡Ñ‚Ð°Ð²Ð¸Ð¼ Ð·ÐµÑ€ÐºÐ°Ð»Ð¾ Ð¾Ñ‚ Ð¯Ð½Ð´ÐµÐºÑ'
 echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 
-echo '3.2 Óñòàíîâêà îñíîâíûõ ïàêåòîâ'
+echo '3.2 Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð¾ÑÐ½Ð¾Ð²Ð½Ñ‹Ñ… Ð¿Ð°ÐºÐµÑ‚Ð¾Ð²'
 pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl
 
-echo '3.3 Íàñòðîéêà ñèñòåìû'
+echo '3.3 ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL git.io/arch1_2.sh)"
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/romul122/arch/main/arch1_2.sh)"
