@@ -80,5 +80,5 @@ systemctl enable NetworkManager
 
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
-echo 'wget git.io/arch1_3.sh && sh arch1_3.sh'
+echo 'wget https://raw.githubusercontent.com/romul122/arch/main/arch1_3.sh && sh arch1_3.sh'
 exit
