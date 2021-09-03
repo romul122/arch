@@ -103,6 +103,7 @@ pacman -S $gui_install
 
 Ставим I3-WM
 pacman -S i3-wm i3-gaps i3status sbxkb dmenu pcmanfm ttf-font-awesome feh lxappearance thunar gvfs udiskie xorg-xbacklight ristretto tumbler
+yay -S polybar ttf-weather-icons ttf-clear-sans tlp playerctl
 
 Cтавим DM
 pacman -S lxdm --noconfirm
@@ -130,4 +131,8 @@ sudo pacman -S xdg-user-dirs --noconfirm
 xdg-user-dirs-update
 
 Установка базовых программ и пакетов
-sudo pacman -S f2fs-tools recoll chromium flameshot veracrypt vlc freemind filezilla neofetch screenfetch qbittorrent galculator telegram-desktop atom htop shotwell ristretto dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
+sudo pacman -S tilix f2fs-tools recoll chromium flameshot veracrypt vlc freemind filezilla neofetch screenfetch qbittorrent galculator telegram-desktop atom htop shotwell ristretto dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
+
+мастер класс по установки arch-linux 
+4 часа видео
+https://www.youtube.com/watch?v=kTtzbPyD21M
