@@ -1,0 +1,133 @@
+loadkeys ru
+setfont cyr-sun16
+
+Синхронизация системных часов
+timedatectl set-ntp true
+
+далее cfdisk и разбивка диска:
+/dev/sda1 - 1G - boot
+/dev/sda2 - 100G - root
+/dev/sda3 - 100G - home
+/dev/sda4 - 1024M - SWAP
+
+Форматирование дисков
+mkfs.ext2  /dev/sda1 -L boot
+mkfs.ext4  /dev/sda2 -L root
+mkfs.ext4  /dev/sda3 -L home
+mkswap 	   /dev/sda4 -L swap
+
+Монтирование дисков
+mount  /dev/sda2 /mnt
+mkdir  /mnt/{boot,home}
+mount  /dev/sda1 /mnt/boot
+mount  /dev/sda3 /mnt/home
+swapon /dev/sda4
+
+Установка зеркал для загрузки
+nano /etc/pacman.d/mirrorlist
+Server = http://mirror.yandex.ru/archlinux/$repo/os/$arch
+Server = https://mirror.yandex.ru/archlinux/$repo/os/$arch
+
+Обновление системы 
+pacman -Syyu
+
+Установка основных пакетов
+pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl
+
+Настройка системы
+genfstab -pU /mnt >> /mnt/etc/fstab
+
+Вход в arch-root
+arch-chroot /mnt
+
+Указываем имя машины
+nano /etc/hostname       -   asus
+
+Указываем регион
+ln -svf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+
+Добавляем пользователя
+useradd user
+
+Устанавливаем пароли root и пользователя
+для root - #passwd
+для пользователя - #passwd user
+
+Установка sudo
+# pacman -Syu
+# pacman -S sudo
+
+Добавление пользователя в sudo
+# usermod -aG wheel user
+pacman -S vim
+# visudo
+Найти и раскомментировать следующую строку (просто удалите символ # в начале строки):
+%wheel ALL=(ALL) ALL
+Нажмите клавишу ESC и введите : wq, чтобы сохранить файл и выйти
+
+Добавляем русскую локаль системы
+nano /etc/locale.gen  -  "en_US.UTF-8 UTF-8"
+nano /etc/locale.gen  -  "ru_RU.UTF-8 UTF-8"
+
+Обновим текущую локаль системы
+locale-gen
+
+Указываем язык системы
+nano /etc/locale.conf  -  "LANG="ru_RU.UTF-8"
+
+Вписываем KEYMAP=ru FONT=cyr-sun16
+nano /etc/vconsole.conf  -  KEYMAP=ru
+nano /etc/vconsole.conf  -  FONT=cyr-sun16
+
+Создадим загрузочный RAM диск
+mkinitcpio -p linux
+
+Устанавливаем загрузчик
+pacman -Syy
+pacman -S grub
+grub-install /dev/sda
+
+Обновляем grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
+
+Ставим программу для Wi-fi
+pacman -S dialog wpa_supplicant
+
+Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
+nano /etc/pacman.conf  -  [multilib]
+nano /etc/pacman.conf  -  Include = /etc/pacman.d/mirrorlist
+pacman -Syy
+
+Ставим иксы и драйвера
+pacman -S $gui_install
+
+Ставим I3-WM
+pacman -S i3-wm i3-gaps i3status sbxkb dmenu pcmanfm ttf-font-awesome feh lxappearance thunar gvfs udiskie xorg-xbacklight ristretto tumbler
+
+Cтавим DM
+pacman -S lxdm --noconfirm
+systemctl enable lxdm
+
+Ставим шрифты
+pacman -S ttf-liberation ttf-dejavu
+
+Ставим сеть
+pacman -S networkmanager
+
+Подключаем автозагрузку менеджера входа и интернет
+systemctl enable NetworkManager
+
+
+mkdir ~/downloads
+cd ~/downloads
+Установка AUR (yay)
+sudo pacman -Syu
+sudo pacman -S wget --noconfirm
+wget git.io/yay-install.sh && sh yay-install.sh
+
+Создаем нужные директории
+sudo pacman -S xdg-user-dirs --noconfirm
+xdg-user-dirs-update
+
+Установка базовых программ и пакетов
+sudo pacman -S f2fs-tools recoll chromium flameshot veracrypt vlc freemind filezilla neofetch screenfetch qbittorrent galculator telegram-desktop atom htop shotwell ristretto dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
